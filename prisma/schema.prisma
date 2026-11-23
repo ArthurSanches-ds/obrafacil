@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Todas as tabelas de dados levam companyId: cada empresa só enxerga o que é dela.
+
+// ---------- Empresa e acesso ----------
+
+model Company {
+  id                  String    @id @default(cuid())
+  name                String
+  phone               String?
+  email               String?
+  document            String? // CNPJ ou CPF, aparece no PDF
+  address             String?
+  logoPath            String? // provisório: arquivo em /public até termos armazenamento de arquivos
+  defaultPaymentTerms String? // texto padrão que já vem preenchido no orçamento
+  defaultDeadline     String?
+  defaultWarranty     String?
+  quoteValidityDays   Int       @default(7)
+  lastQuoteNumber     Int       @default(0) // numeração sequencial dos orçamentos
+  createdAt           DateTime  @default(now())
+  users               User[]
+  clients             Client[]
+  services            Service[]
+  quotes              Quote[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id])
+  name         String
+  email        String   @unique
+  passwordHash String
+  active       Boolean  @default(true) // false = bloqueado, não consegue entrar
+  isAdmin      Boolean  @default(false) // pode bloquear usuários e mexer na empresa
+  createdAt    DateTime @default(now())
+  quotes       Quote[]
+
+  @@index([companyId])
+}
+
+// ---------- Clientes ----------
+
+model Client {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  name      String
+  phone     String?
+  address   String?
+  origin    String? // de onde veio: Instagram, indicação, Google...
+  notes     String?
+  createdAt DateTime @default(now())
+  quotes    Quote[]
+
+  @@index([companyId, name])
+}
+
+// ---------- Tabela de preços ----------
+
+model Service {
+  id            String      @id @default(cuid())
+  companyId     String
+  company       Company     @relation(fields: [companyId], references: [id])
+  name          String // ex.: "Drywall — Forro / rebaixamento de teto"
+  unit          String // m², m, diária, ponto
+  laborPrice    Decimal     @db.Decimal(10, 2) // só mão de obra
+  materialPrice Decimal     @db.Decimal(10, 2) // mão de obra + material
+  hazardous     Boolean     @default(false) // entra no adicional de risco
+  steps         String[] // etapas de execução que aparecem no PDF
+  active        Boolean     @default(true)
+  sortOrder     Int         @default(0)
+  createdAt     DateTime    @default(now())
+  quoteItems    QuoteItem[]
+
+  @@index([companyId])
+}
+
+// ---------- Orçamentos ----------
+
+enum QuoteStatus {
+  PENDING // em aprovação
+  APPROVED // aprovado, obra ainda não começou
+  IN_PROGRESS // obra em andamento
+  DONE // obra finalizada
+  LOST // não fechou: some da lista principal, mas conta na taxa de fechamento
+}
+
+enum HazardScope {
+  ALL // risco sobre todos os serviços
+  MARKED // risco só sobre os serviços marcados como de risco
+}
+
+enum DiscountType {
+  PERCENT
+  AMOUNT
+}
+
+enum PriceMode {
+  LABOR // só mão de obra
+  MATERIAL // com material
+}
+
+model Quote {
+  id              String       @id @default(cuid())
+  companyId       String
+  company         Company      @relation(fields: [companyId], references: [id])
+  number          Int // 1, 2, 3... por empresa
+  clientId        String
+  client          Client       @relation(fields: [clientId], references: [id])
+  createdById     String
+  createdBy       User         @relation(fields: [createdById], references: [id])
+  title           String? // ex.: "Forro da sala e quarto"
+  status          QuoteStatus  @default(PENDING)
+  hazardPercent   Decimal      @default(0) @db.Decimal(5, 2)
+  hazardScope     HazardScope  @default(MARKED)
+  discountType    DiscountType @default(PERCENT)
+  discountValue   Decimal      @default(0) @db.Decimal(10, 2)
+  additionalFee   Decimal      @default(0) @db.Decimal(10, 2)
+  paymentTerms    String?
+  deadline        String?
+  warranty        String?
+  validUntil      DateTime?
+  notes           String?
+  // Custos da obra, para calcular o lucro (não aparecem para o cliente)
+  costMaterials   Decimal      @default(0) @db.Decimal(10, 2)
+  costTransport   Decimal      @default(0) @db.Decimal(10, 2)
+  costTaxPercent  Decimal      @default(0) @db.Decimal(5, 2)
+  costOther       Decimal      @default(0) @db.Decimal(10, 2)
+  statusChangedAt DateTime     @default(now())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  items           QuoteItem[]
+
+  @@unique([companyId, number])
+  @@index([companyId, status])
+}
+
+// Cada linha guarda o preço e as etapas do dia em que o orçamento foi feito:
+// mudar a tabela de preços depois não altera orçamentos antigos.
+model QuoteItem {
+  id          String    @id @default(cuid())
+  quoteId     String
+  quote       Quote     @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  serviceId   String? // vazio = item avulso, digitado na hora
+  service     Service?  @relation(fields: [serviceId], references: [id])
+  description String
+  unit        String
+  quantity    Decimal   @db.Decimal(10, 2)
+  priceMode   PriceMode @default(LABOR)
+  unitPrice   Decimal   @db.Decimal(10, 2)
+  hazardous   Boolean   @default(false)
+  steps       String[]
+  sortOrder   Int       @default(0)
+}
