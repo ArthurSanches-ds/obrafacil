@@ -1,0 +1,176 @@
+[
+  {
+    "name": "Drywall — Forro / rebaixamento de teto",
+    "unit": "m²",
+    "laborPrice": "90.00",
+    "materialPrice": "150.00",
+    "hazardous": false,
+    "sortOrder": 0,
+    "steps": [
+      "Conferência no local — medimos o ambiente, conferimos o nível do teto e definimos com você a altura do rebaixo e a posição das luminárias.",
+      "Proteção do ambiente — cobrimos piso e móveis com lona antes de começar.",
+      "Marcação de nível — riscamos a altura do forro em todo o perímetro com nível a laser, para o teto ficar reto.",
+      "Fixação do perímetro — instalamos as cantoneiras ou tabicas nas paredes, que dão o acabamento da borda.",
+      "Tirantes na laje — fixamos os pendurais e reguladores que sustentam o forro.",
+      "Estrutura metálica — montamos os perfis de aço galvanizado (canaletas F530) no espaçamento correto.",
+      "Fixação das chapas — parafusamos as chapas de drywall na estrutura, com as juntas desencontradas para evitar trincas.",
+      "Recortes — abrimos os pontos de spots, luminárias, alçapão de visita e saídas de ar-condicionado combinados.",
+      "Tratamento das juntas — aplicamos fita e massa própria para drywall em todas as emendas e cabeças de parafuso.",
+      "Lixamento e acabamento — lixamos as emendas e deixamos a superfície lisa, pronta para receber pintura.",
+      "Limpeza e entrega — recolhemos as sobras, limpamos o ambiente e fazemos a vistoria final com você."
+    ]
+  },
+  {
+    "name": "Drywall — Parede / divisória",
+    "unit": "m²",
+    "laborPrice": "90.00",
+    "materialPrice": "150.00",
+    "hazardous": false,
+    "sortOrder": 1,
+    "steps": [
+      "Conferência no local — medimos o vão e definimos com você a posição da parede, portas e pontos de fixação (TV, armários, bancadas).",
+      "Proteção do ambiente — cobrimos piso e móveis próximos antes de começar.",
+      "Marcação no piso e no teto — riscamos o alinhamento da parede com nível a laser e prumo.",
+      "Fixação das guias — instalamos as guias de aço galvanizado no piso e no teto.",
+      "Montantes — encaixamos os montantes verticais no espaçamento correto e reforçamos os vãos de porta.",
+      "Reforços internos — colocamos reforço onde serão fixados TV, armários, prateleiras ou bancadas.",
+      "Passagem de instalações — deixamos passados os eletrodutos e caixinhas de tomada combinados, antes do fechamento.",
+      "Fechamento da primeira face — parafusamos as chapas de drywall de um lado da parede.",
+      "Fechamento da segunda face — conferimos as instalações e fechamos o outro lado, com as juntas desencontradas.",
+      "Tratamento das juntas e quinas — aplicamos fita e massa nas emendas e cantoneira de proteção nas quinas.",
+      "Lixamento e acabamento — deixamos a parede lisa, pronta para pintura.",
+      "Limpeza e entrega — recolhemos as sobras, limpamos o ambiente e fazemos a vistoria final com você."
+    ]
+  },
+  {
+    "name": "Drywall — Sanca / cortineiro / detalhes",
+    "unit": "m²",
+    "laborPrice": "90.00",
+    "materialPrice": "150.00",
+    "hazardous": false,
+    "sortOrder": 2,
+    "steps": [
+      "Definição do desenho — conferimos medidas e alinhamos com você o modelo (sanca aberta, fechada, cortineiro) e a iluminação.",
+      "Proteção do ambiente — cobrimos piso e móveis antes de começar.",
+      "Marcação — riscamos níveis e recuos no teto e nas paredes com nível a laser.",
+      "Estrutura metálica — montamos a estrutura em perfis de aço galvanizado no formato do detalhe.",
+      "Fechamento com chapas — cortamos e parafusamos as chapas de drywall, formando o rebaixo e a aba.",
+      "Preparação para iluminação — deixamos o espaço e a passagem para fita de LED ou spots, conforme combinado.",
+      "Tratamento das juntas e quinas — aplicamos fita, massa e cantoneiras para as quinas ficarem retas.",
+      "Lixamento e acabamento — deixamos tudo liso, pronto para pintura.",
+      "Limpeza e entrega — limpamos o ambiente e fazemos a vistoria final com você."
+    ]
+  },
+  {
+    "name": "Beiral com telha",
+    "unit": "m",
+    "laborPrice": "80.00",
+    "materialPrice": "140.00",
+    "hazardous": true,
+    "sortOrder": 3,
+    "steps": [
+      "Vistoria e medição — avaliamos o telhado e a estrutura existente e medimos o comprimento do beiral.",
+      "Segurança e isolamento — montamos o andaime, isolamos a área embaixo e trabalhamos com os equipamentos de proteção.",
+      "Marcação do alinhamento — definimos o avanço e o caimento do beiral para a água escoar corretamente.",
+      "Estrutura de apoio — preparamos e fixamos a estrutura que sustenta o beiral (caibros, ripas ou mãos-francesas).",
+      "Assentamento das telhas — colocamos as telhas alinhadas e com a sobreposição correta.",
+      "Fixação e arremates — fixamos as telhas da beirada e fazemos os arremates para evitar deslocamento com vento.",
+      "Acabamento — executamos o acabamento da frente e de baixo do beiral, conforme combinado.",
+      "Teste de escoamento — conferimos o caimento e o escoamento da água.",
+      "Limpeza e entrega — retiramos o entulho, desmontamos o andaime e fazemos a vistoria final com você."
+    ]
+  },
+  {
+    "name": "Pintura — Pintura interna (com massa)",
+    "unit": "m²",
+    "laborPrice": "90.00",
+    "materialPrice": "135.00",
+    "hazardous": false,
+    "sortOrder": 4,
+    "steps": [
+      "Proteção do ambiente — cobrimos piso e móveis com lona e protegemos rodapés, tomadas e esquadrias com fita.",
+      "Limpeza das paredes — removemos poeira, mofo e partes soltas para a tinta aderir bem.",
+      "Correção de imperfeições — fechamos trincas, furos e buracos.",
+      "Lixamento — lixamos a superfície para nivelar e abrir a aderência.",
+      "Fundo preparador / selador — aplicamos o fundo que uniformiza a parede e economiza tinta.",
+      "Massa corrida — aplicamos duas demãos de massa, com lixamento entre elas, para a parede ficar lisa.",
+      "Remoção do pó — limpamos todo o pó do lixamento antes de pintar.",
+      "Primeira demão de tinta — aplicamos a primeira demão, com recortes nos cantos e ao redor das esquadrias.",
+      "Segunda demão — aplicamos a demão de acabamento (e uma terceira onde for necessário para cobrir bem).",
+      "Retoques — conferimos a cobertura com boa luz e retocamos o que for preciso.",
+      "Limpeza e entrega — retiramos as proteções, limpamos o ambiente e fazemos a vistoria final com você."
+    ]
+  },
+  {
+    "name": "Pintura — Pintura externa / fachada",
+    "unit": "m²",
+    "laborPrice": "90.00",
+    "materialPrice": "135.00",
+    "hazardous": false,
+    "sortOrder": 5,
+    "steps": [
+      "Proteção e isolamento — protegemos piso, plantas, esquadrias e isolamos a área de trabalho.",
+      "Lavagem prévia — lavamos a superfície para remover sujeira, limo e mofo.",
+      "Tempo de secagem — aguardamos a parede secar por completo antes de continuar.",
+      "Raspagem — retiramos a tinta solta ou descascando.",
+      "Tratamento de trincas e fissuras — abrimos, preenchemos e regularizamos as trincas.",
+      "Fundo preparador / selador — aplicamos o selador acrílico que firma a superfície e melhora a aderência.",
+      "Massa acrílica — corrigimos as imperfeições com massa própria para área externa, onde for necessário.",
+      "Primeira demão de tinta — aplicamos a primeira demão de tinta acrílica para exterior.",
+      "Segunda demão — aplicamos a demão de acabamento (e uma terceira onde for necessário).",
+      "Recortes e retoques — acertamos cantos, beirais e encontros com esquadrias.",
+      "Limpeza e entrega — retiramos as proteções, limpamos a área e fazemos a vistoria final com você."
+    ]
+  },
+  {
+    "name": "Pintura — Repintura (sem massa)",
+    "unit": "m²",
+    "laborPrice": "90.00",
+    "materialPrice": "135.00",
+    "hazardous": false,
+    "sortOrder": 6,
+    "steps": [
+      "Proteção do ambiente — cobrimos piso e móveis e protegemos rodapés, tomadas e esquadrias.",
+      "Limpeza das paredes — removemos poeira, gordura e mofo.",
+      "Pequenas correções — fechamos furos e pequenas trincas e lixamos os pontos corrigidos.",
+      "Primeira demão de tinta — aplicamos a primeira demão com recortes nos cantos.",
+      "Segunda demão — aplicamos a demão de acabamento.",
+      "Retoques — conferimos a cobertura e retocamos o que for preciso.",
+      "Limpeza e entrega — retiramos as proteções, limpamos o ambiente e fazemos a vistoria final com você."
+    ]
+  },
+  {
+    "name": "Reparos em geral",
+    "unit": "diária",
+    "laborPrice": "250.00",
+    "materialPrice": "320.00",
+    "hazardous": false,
+    "sortOrder": 7,
+    "steps": [
+      "Avaliação — olhamos o problema no local e confirmamos com você o que será feito.",
+      "Proteção do ambiente — cobrimos piso e móveis próximos.",
+      "Remoção da parte danificada — retiramos o que está solto, trincado ou comprometido.",
+      "Execução do reparo — refazemos a área com o material adequado.",
+      "Acabamento — nivelamos e lixamos para o reparo ficar igual ao restante.",
+      "Teste — conferimos o funcionamento ou a firmeza do que foi reparado.",
+      "Limpeza e entrega — limpamos o local e mostramos o serviço pronto para você."
+    ]
+  },
+  {
+    "name": "Instalações em geral",
+    "unit": "ponto",
+    "laborPrice": "85.00",
+    "materialPrice": "130.00",
+    "hazardous": false,
+    "sortOrder": 8,
+    "steps": [
+      "Conferência dos pontos — confirmamos com você o local de cada instalação e conferimos as peças e aparelhos.",
+      "Segurança — desligamos o disjuntor ou fechamos o registro antes de mexer na instalação.",
+      "Marcação e furação — marcamos a posição com nível e furamos com cuidado para não atingir tubulações.",
+      "Fixação — fixamos suportes, caixas ou peças com buchas e parafusos adequados para o tipo de parede.",
+      "Ligação — fazemos a ligação elétrica ou hidráulica, com isolamento e vedação corretos.",
+      "Teste de funcionamento — religamos e testamos cada ponto instalado.",
+      "Limpeza e entrega — limpamos o local e mostramos tudo funcionando para você."
+    ]
+  }
+]
