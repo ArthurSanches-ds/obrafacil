@@ -23,6 +23,7 @@ model Company {
   defaultDeadline     String?
   defaultWarranty     String?
   quoteValidityDays   Int       @default(7)
+  helperDailyRate     Decimal   @default(0) @db.Decimal(10, 2) // diária padrão do ajudante
   lastQuoteNumber     Int       @default(0) // numeração sequencial dos orçamentos
   createdAt           DateTime  @default(now())
   users               User[]
@@ -134,6 +135,8 @@ model Quote {
   costTransport   Decimal      @default(0) @db.Decimal(10, 2)
   costTaxPercent  Decimal      @default(0) @db.Decimal(5, 2)
   costOther       Decimal      @default(0) @db.Decimal(10, 2)
+  helperDays      Decimal      @default(0) @db.Decimal(5, 1) // 0 = obra sem ajudante
+  helperDailyRate Decimal      @default(0) @db.Decimal(10, 2)
   statusChangedAt DateTime     @default(now())
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt

@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { calculateQuote, lineTotal, type QuoteInput } from "./quote";
 
-const noCosts = { materials: 0, transport: 0, taxPercent: 0, other: 0 };
+const noCosts = {
+  materials: 0,
+  transport: 0,
+  taxPercent: 0,
+  other: 0,
+  helperDays: 0,
+  helperDailyRate: 0,
+};
 
 function quote(overrides: Partial<QuoteInput> = {}): QuoteInput {
   return {
@@ -39,7 +46,7 @@ describe("calculateQuote", () => {
       quote({
         items: [{ quantity: 32, unitPrice: 150, hazardous: false }],
         discountType: "AMOUNT",
-        costs: { materials: 1950, transport: 140, taxPercent: 0, other: 0 },
+        costs: { ...noCosts, materials: 1950, transport: 140 },
       }),
     );
 
@@ -119,17 +126,30 @@ describe("calculateQuote", () => {
   describe("lucro", () => {
     it("desconta o imposto como % do total", () => {
       const result = calculateQuote(
-        quote({ costs: { materials: 200, transport: 50, taxPercent: 6, other: 10 } }),
+        quote({ costs: { ...noCosts, materials: 200, transport: 50, taxPercent: 6, other: 10 } }),
       );
       expect(result.taxAmount.toNumber()).toBe(54);
       expect(result.totalCosts.toNumber()).toBe(314);
       expect(result.profit.toNumber()).toBe(586);
     });
 
-    it("pode ser negativo quando o custo passa do preço", () => {
+    it("soma o ajudante: diárias × valor da diária", () => {
       const result = calculateQuote(
-        quote({ costs: { materials: 1000, transport: 0, taxPercent: 0, other: 0 } }),
+        quote({ costs: { ...noCosts, helperDays: 3, helperDailyRate: 120 } }),
       );
+      expect(result.helperCost.toNumber()).toBe(360);
+      expect(result.profit.toNumber()).toBe(540);
+    });
+
+    it("sem ajudante quando as diárias são zero", () => {
+      const result = calculateQuote(
+        quote({ costs: { ...noCosts, helperDays: 0, helperDailyRate: 120 } }),
+      );
+      expect(result.helperCost.toNumber()).toBe(0);
+    });
+
+    it("pode ser negativo quando o custo passa do preço", () => {
+      const result = calculateQuote(quote({ costs: { ...noCosts, materials: 1000 } }));
       expect(result.profit.toNumber()).toBe(-100);
     });
 

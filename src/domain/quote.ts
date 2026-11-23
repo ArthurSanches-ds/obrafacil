@@ -18,6 +18,8 @@ export type QuoteInput = {
     transport: Decimal.Value;
     taxPercent: Decimal.Value; // 6 = 6% do total
     other: Decimal.Value;
+    helperDays: Decimal.Value; // 0 = sem ajudante nessa obra
+    helperDailyRate: Decimal.Value; // diária do ajudante
   };
 };
 
@@ -38,7 +40,7 @@ export function lineTotal(item: QuoteItemInput) {
 }
 
 // Ordem da conta: subtotal → adicional de risco → desconto → taxa adicional → total.
-// Depois, o lucro: total menos material, transporte, imposto (% do total) e outros custos.
+// Depois, o lucro: total menos material, transporte, ajudante, imposto (% do total) e outros custos.
 export function calculateQuote(input: QuoteInput) {
   const lines = input.items.map(lineTotal);
   const subtotal = lines.reduce((sum, line) => sum.plus(line), new Decimal(0));
@@ -64,9 +66,15 @@ export function calculateQuote(input: QuoteInput) {
   const total = Decimal.max(0, subtotalWithHazard.minus(discountAmount).plus(additionalFee));
 
   const taxAmount = cents(total.mul(nonNegative(input.costs.taxPercent, "O imposto")).div(100));
+  const helperCost = cents(
+    nonNegative(input.costs.helperDays, "As diárias do ajudante").mul(
+      nonNegative(input.costs.helperDailyRate, "A diária do ajudante"),
+    ),
+  );
   const totalCosts = nonNegative(input.costs.materials, "O custo de material")
     .plus(nonNegative(input.costs.transport, "O transporte"))
     .plus(nonNegative(input.costs.other, "Outros custos"))
+    .plus(helperCost)
     .plus(taxAmount);
   const profit = total.minus(totalCosts);
   const marginPercent = total.isZero() ? new Decimal(0) : profit.div(total).mul(100);
@@ -81,6 +89,7 @@ export function calculateQuote(input: QuoteInput) {
     additionalFee,
     total,
     taxAmount,
+    helperCost,
     totalCosts,
     profit,
     marginPercent,
