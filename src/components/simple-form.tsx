@@ -59,8 +59,11 @@ export function SimpleForm({ action, fields, hidden = {}, submitLabel, cancelHre
         );
       })}
 
-      {state.status === "error" && state.message && (
-        <p role="status" className="text-destructive text-sm">
+      {state.message && (
+        <p
+          role="status"
+          className={`text-sm ${state.status === "error" ? "text-destructive" : "text-primary"}`}
+        >
           {state.message}
         </p>
       )}

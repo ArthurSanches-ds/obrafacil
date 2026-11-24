@@ -95,3 +95,27 @@ export function calculateQuote(input: QuoteInput) {
     marginPercent,
   };
 }
+
+// Para o PDF: o adicional de risco some como linha separada e entra no valor dos
+// serviços de risco, proporcional a cada um. A última linha recebe a sobra do
+// arredondamento, para a soma bater exatamente com serviços + risco.
+export function embedHazard(
+  items: QuoteItemInput[],
+  hazardScope: QuoteInput["hazardScope"],
+  totals: Pick<ReturnType<typeof calculateQuote>, "lines" | "hazardBase" | "hazardAmount">,
+) {
+  const { lines, hazardBase, hazardAmount } = totals;
+  if (hazardAmount.isZero() || hazardBase.isZero()) return lines;
+
+  const eligible = items.map((item) => hazardScope === "ALL" || item.hazardous);
+  const lastEligible = eligible.lastIndexOf(true);
+  let distributed = new Decimal(0);
+
+  return lines.map((line, index) => {
+    if (!eligible[index]) return line;
+    if (index === lastEligible) return line.plus(hazardAmount.minus(distributed));
+    const share = cents(hazardAmount.mul(line).div(hazardBase));
+    distributed = distributed.plus(share);
+    return line.plus(share);
+  });
+}

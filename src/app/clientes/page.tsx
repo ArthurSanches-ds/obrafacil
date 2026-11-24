@@ -76,6 +76,12 @@ export default async function ClientesPage({ searchParams }: PageProps<"/cliente
                     </a>
                   )}
                   <Link
+                    href={`/orcamentos/novo?cliente=${client.id}`}
+                    className={buttonVariants({ variant: "outline", size: "sm" })}
+                  >
+                    Orçar
+                  </Link>
+                  <Link
                     href={`/clientes/${client.id}/editar`}
                     className={buttonVariants({ variant: "ghost", size: "sm" })}
                   >

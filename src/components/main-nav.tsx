@@ -18,7 +18,7 @@ const LINKS = [
   { href: "/servicos", label: "Preços" },
 ];
 
-const ADMIN_LINKS = [{ href: "/usuarios", label: "Usuários" }];
+const ADMIN_LINKS = [{ href: "/empresa", label: "Empresa" }];
 
 export function MainNav({ userName, isAdmin, companyName, logoPath }: Props) {
   const pathname = usePathname();

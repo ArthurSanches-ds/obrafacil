@@ -1,5 +1,6 @@
+import Decimal from "decimal.js";
 import { describe, expect, it } from "vitest";
-import { calculateQuote, lineTotal, type QuoteInput } from "./quote";
+import { calculateQuote, embedHazard, lineTotal, type QuoteInput } from "./quote";
 
 const noCosts = {
   materials: 0,
@@ -157,5 +158,37 @@ describe("calculateQuote", () => {
       const result = calculateQuote(quote({ items: [] }));
       expect(result.marginPercent.toNumber()).toBe(0);
     });
+  });
+});
+
+describe("embedHazard", () => {
+  const sum = (values: Decimal[]) =>
+    values.reduce((total, value) => total.plus(value), new Decimal(0));
+
+  it("põe o risco só nos serviços marcados", () => {
+    const items = [
+      { quantity: 20, unitPrice: 90, hazardous: false },
+      { quantity: 8, unitPrice: 80, hazardous: true },
+    ];
+    const input = quote({ items, hazardPercent: 30, hazardScope: "MARKED" });
+    const lines = embedHazard(items, "MARKED", calculateQuote(input));
+    expect(lines.map((line) => line.toNumber())).toEqual([1800, 832]);
+  });
+
+  it("divide proporcionalmente e a soma bate com serviços + risco", () => {
+    // 7% de R$ 100,00 = R$ 7,00, que não divide exato entre as três linhas
+    const items = [
+      { quantity: 1, unitPrice: "33.33", hazardous: false },
+      { quantity: 1, unitPrice: "33.33", hazardous: false },
+      { quantity: 1, unitPrice: "33.34", hazardous: false },
+    ];
+    const result = calculateQuote(quote({ items, hazardPercent: 7, hazardScope: "ALL" }));
+    const lines = embedHazard(items, "ALL", result);
+    expect(sum(lines).toString()).toBe(result.subtotalWithHazard.toString());
+  });
+
+  it("não mexe em nada sem risco", () => {
+    const result = calculateQuote(quote());
+    expect(embedHazard(quote().items, "MARKED", result)).toEqual(result.lines);
   });
 });
