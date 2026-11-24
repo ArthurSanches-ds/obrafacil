@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ObraFácil",
   description: "Orçamentos e obras para empresas de reforma e drywall",
+  appleWebApp: { title: "Lameira's", capable: true, statusBarStyle: "black-translucent" },
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
