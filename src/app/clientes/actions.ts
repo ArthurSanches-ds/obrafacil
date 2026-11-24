@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import type { RemoveState } from "@/components/remove-button";
 import type { FormState } from "@/components/simple-form";
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
@@ -59,6 +60,29 @@ export async function updateClient(_state: FormState, formData: FormData): Promi
   });
   if (count === 0) return { status: "error", message: "Cliente não encontrado.", values };
 
+  revalidatePath("/clientes");
+  redirect("/clientes");
+}
+
+// Só apaga cliente sem orçamento: com orçamento, apagar sumiria com o histórico.
+// Para cliente de teste, exclua os orçamentos dele antes.
+export async function deleteClient(_state: RemoveState, formData: FormData): Promise<RemoveState> {
+  const user = await requireUser();
+  const id = String(formData.get("id") ?? "");
+  const client = await prisma.client.findFirst({
+    where: { id, companyId: user.companyId },
+    include: { _count: { select: { quotes: true } } },
+  });
+  if (!client) return { message: "Cliente não encontrado." };
+
+  const quotes = client._count.quotes;
+  if (quotes > 0) {
+    return {
+      message: `${client.name} tem ${quotes} ${quotes === 1 ? "orçamento" : "orçamentos"}. Exclua ${quotes === 1 ? "o orçamento" : "os orçamentos"} antes, ou mantenha o cliente para não perder o histórico.`,
+    };
+  }
+
+  await prisma.client.delete({ where: { id: client.id } });
   revalidatePath("/clientes");
   redirect("/clientes");
 }
