@@ -30,11 +30,19 @@ async function main() {
         address: "Região dos Lagos / Rio das Ostras - RJ",
         quoteValidityDays: 7,
         helperDailyRate: "120.00",
+        logoPath: "/logo-lameiras.png",
       },
     });
     console.log(`Empresa criada: ${company.name}`);
   } else {
     console.log(`Empresa já existia: ${company.name}`);
+    if (!company.logoPath) {
+      company = await prisma.company.update({
+        where: { id: company.id },
+        data: { logoPath: "/logo-lameiras.png" },
+      });
+      console.log("Logo adicionado.");
+    }
   }
 
   // Tabela de preços do app antigo: só cria o que ainda não existe, nunca sobrescreve
